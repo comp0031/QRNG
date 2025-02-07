@@ -1,0 +1,7 @@
+numpy
+qiskit
+qiskit-aer
+qiskit-aer-gpu
+matplotlib
+pylatexenc
+python-dotenv

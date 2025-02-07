@@ -71,14 +71,14 @@ if __name__ == '__main__':
         # Quantum random number generation
         bitstream_quantum = ''.join([str(b) for b in rng.get_bitstream()])
         entropy = calc_entropy(bitstream_quantum)
-        results['Quantum'].append(entropy)
+        results['quantum'].append({'entropy': entropy, '1': bitstream_quantum.count('1'), '0': bitstream_quantum.count('0')})
 
         # Typical random number generation
         bitstream_classical = ''.join([str(random.randint(0, 1)) for _ in range(length)])
         entropy = calc_entropy(bitstream_classical)
-        results['Classical'].append(entropy)
+        results['classical'].append({'entropy': entropy, '1': bitstream_classical.count('1'), '0': bitstream_classical.count('0')})
     
-    quantum_avg = sum(results['Quantum']) / entropy_trials
-    classical_avg = sum(results['Classical']) / entropy_trials
+    quantum_avg = sum(results['quantum']) / entropy_trials
+    classical_avg = sum(results['classical']) / entropy_trials
     print(f'Quantum entropy results: {quantum_avg}')
     print(f'Classical entropy results: {classical_avg}')

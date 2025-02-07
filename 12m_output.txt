@@ -1,0 +1,49 @@
+Opening file: '12M.bin' (SHA-256 hash 52d3f58eef4f824f5065cc41793a11be4bb0b3aa3090bc2266f60857d18d10ff)
+Loaded 12700000 samples of 2 distinct 1-bit-wide symbols
+Calculating baseline statistics...
+        Raw Mean: 0.511791
+        Median: 0.500000
+        Binary: true
+
+Literal MCV Estimate: mode = 6499740, p-hat = 0.51179055118110239, p_u = 0.51215184826660698
+H_original: 0.965356
+Chi square independence
+        score = 2127.569890
+        degrees of freedom = 2046
+        p-value = 0.102225
+
+Chi square goodness of fit
+        score = 24.823542
+        degrees of freedom = 9
+        p-value = 0.003173
+
+** Passed chi square tests
+
+Literal Longest Repeated Substring results
+        P_col: 0.500278
+        Length of LRS: 45
+        Pr(X >= 1): 0.904642
+** Passed length of longest repeated substring test
+
+Beginning initial tests...
+
+Initial test results
+              excursion: 3924.81
+     numDirectionalRuns: 1.01159e+06
+     lenDirectionalRuns: 14
+  numIncreasesDecreases: 949242
+          numRunsMedian: 6.34218e+06
+          lenRunsMedian: 24
+           avgCollision: 20.7118
+           maxCollision: 76
+         periodicity(1): 311208
+         periodicity(2): 312239
+         periodicity(8): 310617
+        periodicity(16): 314001
+        periodicity(32): 312859
+          covariance(1): 2.6613e+07
+          covariance(2): 2.66083e+07
+          covariance(8): 2.66137e+07
+         covariance(16): 2.66514e+07
+         covariance(32): 2.66461e+07
+            compression: 1.97864e+06

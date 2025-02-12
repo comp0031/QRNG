@@ -77,6 +77,7 @@ def print_entropy():
         )
 
 
-extraction()
-bit_loss()
-print_entropy()
+if __name__ == "__main__":
+    extraction()
+    bit_loss()
+    print_entropy()

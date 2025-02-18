@@ -1,4 +1,4 @@
-with open("./output.txt") as file:
+with open("inp/python_random.txt") as file:
     bits = file.read()
 
 output = []
@@ -9,5 +9,5 @@ for bit in bits:
 ba = bytearray(output)
 bs = bytes(ba)
 
-with open("./output.bin", "wb") as file:
+with open("inp/python_random.bin", "wb") as file:
     file.write(bs)

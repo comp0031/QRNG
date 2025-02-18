@@ -1,10 +1,14 @@
-File: 12M_quantum.bin, shannon => 0.05397, chi_squared => 1566813.88909, 
-File: 1024_extracted.txt, shannon => 0.99991, chi_squared => 0.30337, 
-File: 10k_extracted.txt, shannon => 0.99985, chi_squared => 4.71082, 
-File: 10k_0s_extracted.txt, shannon => 1.00000, chi_squared => 0.00000, 
-File: 12M_extracted.txt, shannon => 1.00000, chi_squared => 0.00041, 
-File: 1024_quantum.bin, shannon => 0.09375, chi_squared => 124.06250, 
-File: 10k_quantum.bin, shannon => 0.02912, chi_squared => 1242.01600, 
-File: 10k_0s.bin, shannon => 0.09318, chi_squared => 1154.79200, 
-File: 420k_q_error_corrected.bin, shannon => 0.07425, chi_squared => 51490.93139, 
-File: 420k_extracted.txt, shannon => 0.99963, chi_squared => 481.70937, 
+
+======= Extracted ========
+1024_extracted.txt => shannon: 0.9999, chi_squared: 0.3034, 
+10k_extracted.txt => shannon: 0.9998, chi_squared: 4.7108, 
+10k_0s_extracted.txt => shannon: 1.0000, chi_squared: 0.0000, 
+12M_extracted.txt => shannon: 1.0000, chi_squared: 0.0004, 
+420k_extracted.txt => shannon: 0.9996, chi_squared: 481.7094, 
+
+======= Generated ========
+12M_quantum.bin => shannon: 0.0540, chi_squared: 1566813.8891, 
+1024_quantum.bin => shannon: 0.0938, chi_squared: 124.0625, 
+10k_quantum.bin => shannon: 0.0291, chi_squared: 1242.0160, 
+10k_0s.bin => shannon: 0.0932, chi_squared: 1154.7920, 
+420k_q_error_corrected.bin => shannon: 0.0743, chi_squared: 51490.9314, 

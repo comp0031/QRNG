@@ -12,29 +12,35 @@ def shannon_entropy(file_path: str) -> float:
     returns:
         float -> the hannon entropy for the function
     """
-    with open(file_path, 'r') as f:
-        data = f.read()
+    # handle binary file
+    if file_path.endswith('.bin'):
+        data = np.fromfile(file_path, dtype=np.uint8)
+        total = data.size
+        # count 1s and 0s by their ascii code
+        count0 = np.count_nonzero(data == ord('0'))
+        count1 = np.count_nonzero(data == ord('1'))
+
+    # handle text file
+    elif file_path.endswith('.txt'):
         
-    # Filter out any characters that are not '0' or '1'
-    total = len(data)
+        with open(file_path, 'r') as f:
+            text = f.read()
+        total = len(text)
+        # convert text to ascii codes
+        arr = np.frombuffer(text.encode('ascii'), dtype=np.uint8)
+        count0 = np.count_nonzero(arr == ord('0'))
+        count1 = np.count_nonzero(arr == ord('1'))
+    
     if total == 0:
         return 0.0
 
-    # Convert the string to a NumPy array of bytes directly.
-    # This avoids creating an intermediate list.
-    arr = np.frombuffer(data.encode('ascii'), dtype=np.uint8)
-    
-    # Count occurrences by comparing with the ASCII codes for '0' and '1'
-    count0 = np.sum(arr == ord('0'))
-    count1 = np.sum(arr == ord('1'))
-
+    # compute probability
     p0 = count0 / total
     p1 = count1 / total
-
-    entropy = 0.0
-    if p0 > 0:
-        entropy -= p0 * math.log2(p0)
-    if p1 > 0:
-        entropy -= p1 * math.log2(p1)
     
+    # compute entropy
+    probs = np.array([p0, p1])
+    # avoid div by 0 error
+    non_zero = probs > 0
+    entropy = -np.sum(probs[non_zero] * np.log2(probs[non_zero]))
     return entropy

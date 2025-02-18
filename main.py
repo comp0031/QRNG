@@ -17,7 +17,7 @@ def main() -> None:
         for entropy_name, entropy_func in METHODS.items():
             H = entropy_func(file_path)
 
-            output_str = f"Method: '{entropy_name} entropy', On file: {file_name}, Entropy: {H:.4f} bits"
+            output_str = f"File: {file_name}, Method: '{entropy_name}', Entropy Value: {H:.4f} "
             print(output_str)
             with open(output_path, "a") as f:
                 f.write(output_str + "\n")

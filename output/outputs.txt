@@ -1,5 +1,10 @@
-Method: 'shannon entropy', On file: 12M_quantum.bin, Entropy: 0.0540 bits
-Method: 'shannon entropy', On file: 1024_quantum.bin, Entropy: 0.0938 bits
-Method: 'shannon entropy', On file: 10k_quantum.bin, Entropy: 0.0291 bits
-Method: 'shannon entropy', On file: 10k_0s.bin, Entropy: 0.0932 bits
-Method: 'shannon entropy', On file: 420k_q_error_corrected.bin, Entropy: 0.0743 bits
+File: 12M_quantum.bin, Method: 'shannon', Entropy Value: 0.0540 
+File: 1024_extracted.txt, Method: 'shannon', Entropy Value: 0.9999 
+File: 10k_extracted.txt, Method: 'shannon', Entropy Value: 0.9998 
+File: 10k_0s_extracted.txt, Method: 'shannon', Entropy Value: 1.0000 
+File: 12M_extracted.txt, Method: 'shannon', Entropy Value: 1.0000 
+File: 1024_quantum.bin, Method: 'shannon', Entropy Value: 0.0938 
+File: 10k_quantum.bin, Method: 'shannon', Entropy Value: 0.0291 
+File: 10k_0s.bin, Method: 'shannon', Entropy Value: 0.0932 
+File: 420k_q_error_corrected.bin, Method: 'shannon', Entropy Value: 0.0743 
+File: 420k_extracted.txt, Method: 'shannon', Entropy Value: 0.9996 

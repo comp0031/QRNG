@@ -14,10 +14,12 @@ def main() -> None:
         file_path = os.path.join("inp", file_name)
 
         # calculate entropy over all the entropy methods
+
+
+        output_str = f"File: {file_name}, "
         for entropy_name, entropy_func in METHODS.items():
             H = entropy_func(file_path)
-
-            output_str = f"File: {file_name}, Method: '{entropy_name}', Entropy Value: {H:.4f} "
+            output_str += f"{entropy_name} => {H:.5f}, "
             print(output_str)
             with open(output_path, "a") as f:
                 f.write(output_str + "\n")

@@ -1,4 +1,5 @@
-Method: 'shannon entropy', On file: python_random.txt, Entropy: 1.0000 bits
-Method: 'shannon entropy', On file: python_random.bin, Entropy: 1.0000 bits
-Method: 'shannon entropy', On file: python_not_random.txt, Entropy: 0.6510 bits
-Method: 'shannon entropy', On file: python_not_random.bin, Entropy: 0.6510 bits
+Method: 'shannon entropy', On file: 12M_quantum.bin, Entropy: 0.0540 bits
+Method: 'shannon entropy', On file: 1024_quantum.bin, Entropy: 0.0938 bits
+Method: 'shannon entropy', On file: 10k_quantum.bin, Entropy: 0.0291 bits
+Method: 'shannon entropy', On file: 10k_0s.bin, Entropy: 0.0932 bits
+Method: 'shannon entropy', On file: 420k_q_error_corrected.bin, Entropy: 0.0743 bits

@@ -19,10 +19,11 @@ def main() -> None:
         output_str = f"File: {file_name}, "
         for entropy_name, entropy_func in METHODS.items():
             H = entropy_func(file_path)
-            output_str += f"{entropy_name} => {H:.5f}, "
-            print(output_str)
-            with open(output_path, "a") as f:
-                f.write(output_str + "\n")
+            output_str += f"{entropy_name} => {H:.4f}, "
+
+        print(output_str)
+        with open(output_path, "a") as f:
+            f.write(output_str + "\n")
 
 if __name__ == "__main__":
     main()

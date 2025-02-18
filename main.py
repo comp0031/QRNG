@@ -4,6 +4,10 @@ from entropy import METHODS
 
 
 def main() -> None:
+    output_path = os.path.join("output", "outputs.txt")
+    # clear the output file
+    with open(output_path, "w") as f:
+        f.write("")
     # get all the input files in the inp directory
     for file_name in os.listdir("inp"): 
         # create the absolute file path to the file
@@ -12,7 +16,11 @@ def main() -> None:
         # calculate entropy over all the entropy methods
         for entropy_name, entropy_func in METHODS.items():
             H = entropy_func(file_path)
-            print(f"Method: {entropy_name}, Entropy: {H:.4f} bits")
+
+            output_str = f"Method: '{entropy_name} entropy', On file: {file_name}, Entropy: {H:.4f} bits"
+            print(output_str)
+            with open(output_path, "a") as f:
+                f.write(output_str + "\n")
 
 if __name__ == "__main__":
     main()

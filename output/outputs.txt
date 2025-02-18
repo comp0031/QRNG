@@ -1,0 +1,2 @@
+Method: 'shannon entropy', On file: python_random.txt, Entropy: 1.0000 bits
+Method: 'shannon entropy', On file: python_not_random.txt, Entropy: 0.6510 bits

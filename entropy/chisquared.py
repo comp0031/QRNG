@@ -20,6 +20,7 @@ def chi_squared_entropy(file_path: str) -> float:
     # handle binary
     if file_path.endswith('.bin'):
         data = np.fromfile(file_path, dtype=np.uint8)
+        data = np.unpackbits(data)
         total = data.size
         count0 = np.count_nonzero(data == 0)
         count1 = np.count_nonzero(data == 1)

@@ -15,6 +15,7 @@ def shannon_entropy(file_path: str) -> float:
     # handle binary file
     if file_path.endswith('.bin'):
         data = np.fromfile(file_path, dtype=np.uint8)
+        data = np.unpackbits(data)
         total = data.size
         # count 1s and 0s 
         count0 = np.count_nonzero(data == 0)

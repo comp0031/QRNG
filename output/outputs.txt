@@ -1,14 +1,14 @@
 
 ======= Extracted ========
-420k_extracted.txt => shannon: 0.9996, chi_squared: 481.7094, mean: 0.5113, 
-12M_extracted.txt => shannon: 1.0000, chi_squared: 0.0004, mean: 0.5000, 
-10k_0s_extracted.txt => shannon: 1.0000, chi_squared: 0.0000, mean: 0.5000, 
-10k_extracted.txt => shannon: 0.9998, chi_squared: 4.7108, mean: 0.4927, 
-1024_extracted.txt => shannon: 0.9999, chi_squared: 0.3034, mean: 0.5056, 
+1024_extracted.txt => shannon: 0.9999, chi_squared: 0.3034, mean: 0.5056, min_entropy: 0.9839, collision: 0.9998, renyi: 0.9998, 
+10k_extracted.txt => shannon: 0.9998, chi_squared: 4.7108, mean: 0.4927, min_entropy: 0.9792, collision: 0.9997, renyi: 0.9997, 
+10k_0s_extracted.txt => shannon: 1.0000, chi_squared: 0.0000, mean: 0.5000, min_entropy: 1.0000, collision: 1.0000, renyi: 1.0000, 
+12M_extracted.txt => shannon: 1.0000, chi_squared: 0.0004, mean: 0.5000, min_entropy: 1.0000, collision: 1.0000, renyi: 1.0000, 
+420k_extracted.txt => shannon: 0.9996, chi_squared: 481.7094, mean: 0.5113, min_entropy: 0.9678, collision: 0.9993, renyi: 0.9993, 
 
 ======= Generated ========
-420k_q_error_corrected.bin => shannon: 0.9996, chi_squared: 252.4972, mean: 0.4877, 
-10k_quantum.bin => shannon: 1.0000, chi_squared: 0.4624, mean: 0.5034, 
-10k_0s.bin => shannon: 0.0392, chi_squared: 9832.7056, mean: 0.0042, 
-1024_quantum.bin => shannon: 0.9999, chi_squared: 0.0977, mean: 0.4951, 
-12M_quantum.bin => shannon: 0.9996, chi_squared: 7062.0685, mean: 0.5118, 
+12M_quantum.bin => shannon: 0.9996, chi_squared: 7062.0685, mean: 0.5118, min_entropy: 0.9664, collision: 0.9992, renyi: 0.9992, 
+1024_quantum.bin => shannon: 0.9999, chi_squared: 0.0977, mean: 0.4951, min_entropy: 0.9860, collision: 0.9999, renyi: 0.9999, 
+10k_quantum.bin => shannon: 1.0000, chi_squared: 0.4624, mean: 0.5034, min_entropy: 0.9902, collision: 0.9999, renyi: 0.9999, 
+10k_0s.bin => shannon: 0.0392, chi_squared: 9832.7056, mean: 0.0042, min_entropy: 0.0061, collision: 0.0121, renyi: 0.0121, 
+420k_q_error_corrected.bin => shannon: 0.9996, chi_squared: 252.4972, mean: 0.4877, min_entropy: 0.9651, collision: 0.9991, renyi: 0.9991, 

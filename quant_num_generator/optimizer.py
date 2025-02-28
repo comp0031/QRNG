@@ -7,7 +7,6 @@ ket_0 = np.array([1, 0])
 
 # Hadamard matrix U
 H = (1 / np.sqrt(2)) * np.array([[1, 1], [1, -1]])
-
 # Define the 2x2 unitary matrix using the given decomposition
 def unitary_matrix(rho, xi, zeta, sigma):
     U1 = np.array([[np.cos(rho), -np.sin(rho)], [np.sin(rho), np.cos(rho)]])
@@ -19,8 +18,8 @@ def unitary_matrix(rho, xi, zeta, sigma):
 rho_A, xi_A, zeta_A, sigma_A = np.random.uniform(-2*np.pi, 2*np.pi, 4)
 rho_B, xi_B, zeta_B, sigma_B = np.random.uniform(-2*np.pi, 2*np.pi, 4)
 
-A = unitary_matrix(rho_A, xi_A, zeta_A, sigma_A)
-B = unitary_matrix(rho_B, xi_B, zeta_B, sigma_B)
+A = np.eye(2)
+B = np.eye(2)
 
 # Define the function to optimize (find A† and B†)
 def objective(params):
@@ -35,7 +34,6 @@ def objective(params):
     
     # Since we use minimize, return the negative value for maximization
     return -np.abs(expr)
-
 # Initial guess: Random values for A† and B† parameters
 initial_guess = np.random.uniform(-2*np.pi, 2*np.pi, 8)
 
@@ -57,6 +55,10 @@ B_dagger_opt = unitary_matrix(*optimized_B_dagger_params).conj().T
 # Compute sanity checks
 identity_A = A @ A_dagger_opt  # Should be close to identity
 identity_B = B @ B_dagger_opt  # Should be close to identity
+
+#identity_A = A @ A.conj().T  # Should be close to identity
+#identity_B = B @ B.conj().T  # Should be close to identity
+
 
 print("Optimized A† parameters (rho_Ad, xi_Ad, zeta_Ad, sigma_Ad):", optimized_A_dagger_params)
 print("Optimized B† parameters (rho_Bd, xi_Bd, zeta_Bd, sigma_Bd):", optimized_B_dagger_params)

@@ -47,6 +47,10 @@ Every $2\times2$ unitary can be repr. by $R_{V_1}R_UR_{V_2}$
 ${\displaystyle U={\begin{bmatrix}\cos \rho &-\sin \rho \\\sin \rho &\;\cos \rho \\\end{bmatrix}}{\begin{bmatrix}e^{i\xi }&0\\0&e^{i\zeta }\end{bmatrix}}{\begin{bmatrix}\;\cos \sigma &\sin \sigma \\-\sin \sigma &\cos \sigma \\\end{bmatrix}}~.}$
 
 
+## Notes:
+- Applying $A^{\dagger}$ $B^{\dagger}$ for error correction will actually also add more error as the gates aren't perfect.
+- In reality what we're trying to apply should be something like $A^{\dagger}A_{correction}$ and similarly for B?
+
 Try and optimize using [Nelder-Mead](https://en.m.wikipedia.org/wiki/Nelder%E2%80%93Mead_method)
 -----------------------------------------------------------------------------------------------------
 

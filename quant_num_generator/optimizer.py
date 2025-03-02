@@ -43,6 +43,7 @@ bounds = [(-2*np.pi, 2*np.pi)] * 8
 # Optimization using Nelder-Mead
 result = minimize(objective, initial_guess, method='Nelder-Mead', bounds=bounds)
 
+
 # Extract optimized parameters for A† and B†
 optimized_params = result.x
 optimized_A_dagger_params = optimized_params[:4]

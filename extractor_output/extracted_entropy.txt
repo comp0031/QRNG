@@ -1,0 +1,8 @@
+For 12M_input the start entropy is :0.9995988442635112 and the entropy post extraction is : 0.9999999999896648
+For 10k_input the start entropy is :0.9999666446335932 and the entropy post extraction is : 0.9998475022040922
+For 1024_input the start entropy is :0.999931205846177 and the entropy post extraction is : 0.9999089303498085
+For 10k_0s_input the start entropy is :0.03920723556800673 and the entropy post extraction is : 1.0
+For 420k_input the start entropy is :0.999566294169211 and the entropy post extraction is : 0.9996329957753132
+For 100k_FakeBrisbane the start entropy is :1.0 and the entropy post extraction is : 0.9989557372539734
+For 100k_FakeKyiv the start entropy is :1.0 and the entropy post extraction is : 0.9999271372273906
+For 100k_FakeSherbrooke the start entropy is :1.0 and the entropy post extraction is : 0.9996995428565171

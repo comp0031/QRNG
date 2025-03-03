@@ -10,6 +10,10 @@ files = {
     "1024_input": "q_gen_input/1024_quantum.bin",
     "10k_0s_input": "q_gen_input/10k_0s.bin",
     "420k_input": "q_gen_input/420k_q_error_corrected.bin",
+    "100k_FakeBrisbane": "q_gen_input/100_kFakeBrisbane_sim.bin",
+    "100k_FakeKyiv": "q_gen_input/100_kFakeKyiv_sim.bin",
+    "100k_FakeSherbrooke": "q_gen_input/100_kFakeSherbrooke_sim.bin",
+
 }
 bitstring_length = {
     "12M_input": [],
@@ -17,6 +21,9 @@ bitstring_length = {
     "1024_input": [],
     "10k_0s_input": [],
     "420k_input": [],
+    "100k_FakeBrisbane": [],
+    "100k_FakeKyiv": [],
+    "100k_FakeSherbrooke": [],
 }
 entropies = {
     "12M_input": [],
@@ -24,6 +31,9 @@ entropies = {
     "1024_input": [],
     "10k_0s_input": [],
     "420k_input": [],
+    "100k_FakeBrisbane": [],
+    "100k_FakeKyiv": [],
+    "100k_FakeSherbrooke": [],
 }
 
 
@@ -53,15 +63,17 @@ def extraction():
 
 # Bit loss
 def bit_loss():
-    for name, lengths in bitstring_length.items():
-        if lengths[0] != 0:
-            loss = (1 - (lengths[1] / lengths[0])) * 100
-            print(f"The bit loss percentage on the input :{name} is {loss}%.")
-        else:
-            print(f"input bit string is empty")
+    with open("extractor_output/bit_loss.txt", "a") as f:
+        for name, lengths in bitstring_length.items():
+            if lengths[0] != 0:
+                loss = (1 - (lengths[1] / lengths[0])) * 100
+                print(f"The bit loss percentage on the input :{name} is {loss}%.")
+                f.write(f"The bit loss percentage on the input :{name} is {loss}%.\n")
+            else:
+                print(f"input bit string is empty")
 
 
-# Shannon Entropy
+    # Shannon Entropy
 def calc_shannon_entropy(original_bitstring):
     total_length = len(original_bitstring)
     bit_counts = Counter(original_bitstring)
@@ -71,10 +83,13 @@ def calc_shannon_entropy(original_bitstring):
 
 
 def print_entropy():
-    for name, entropy in entropies.items():
-        print(
-            f"For {name} the start entropy is :{entropy[0]} and the entropy post extraction is : {entropy[1]}"
-        )
+    with open("extractor_output/extracted_entropy.txt", "a") as f:
+        for name, entropy in entropies.items():
+            print(
+                f"For {name} the start entropy is :{entropy[0]} and the entropy post extraction is : {entropy[1]}"
+            )
+            f.write(f"For {name} the start entropy is :{entropy[0]} and the entropy post extraction is : {entropy[1]}\n")
+
 
 
 if __name__ == "__main__":

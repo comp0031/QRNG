@@ -1,0 +1,8 @@
+The bit loss percentage on the input :12M_input is 75.03727559055118%.
+The bit loss percentage on the input :10k_input is 75.24%.
+The bit loss percentage on the input :1024_input is 73.92578125%.
+The bit loss percentage on the input :10k_0s_input is 99.58%.
+The bit loss percentage on the input :420k_input is 74.95023809523809%.
+The bit loss percentage on the input :100k_FakeBrisbane is 76.04166666666666%.
+The bit loss percentage on the input :100k_FakeKyiv is 74.08854166666667%.
+The bit loss percentage on the input :100k_FakeSherbrooke is 74.47916666666667%.

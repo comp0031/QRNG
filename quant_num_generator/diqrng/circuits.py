@@ -12,12 +12,12 @@ fake = getattr(dynamic_fake_provider, simulated)
 
 class ChshCircuit:
 
-    def __init__(self, num_qubits: int, token: str | None) -> None:
-        if num_qubits % 2:
+    def __init__(self, num_pairs: int, token: str | None) -> None:
+        if num_pairs % 2:
             raise ValueError("Number of qubits must be even")
         if token:
             service = QiskitRuntimeService(channel="ibm_quantum", token=token)
-            self._backend = service.least_busy(operational=True, simulator=False, min_num_qubits=num_qubits)
+            self._backend = service.least_busy(operational=True, simulator=False, min_num_qubits=num_pairs * 2)
             self._sampler = SamplerV2(mode=self._backend)
             self._simulated = False
         else:
@@ -26,7 +26,7 @@ class ChshCircuit:
             self._sampler = AerSimulator.from_backend(self._backend)
             self._simulated = True
         self._estimator = EstimatorV2(mode=self._backend)
-        self.num_qubits = num_qubits
+        self.num_qubits = num_pairs * 2
 
 
     def generate_numbers(self) -> str:

@@ -16,17 +16,18 @@ class Round(Enum):
     CHECK = 1
 
 
-def generate(rounds: list[int], bases: list[tuple], qubits: int, token: str | None, uncertainty=0.10):
+def generate(rounds: list[int], qubits: int, token: str | None, bases: list[tuple] | None = None, uncertainty=0.20):
     random_numbers = ""
     threshold = _get_threshold(uncertainty)
-    bases_iter = iter(bases)
+    if bases:
+        raise NotImplementedError("Custom bases are not supported.")
     chsh_circuit = circuits.ChshCircuit(qubits, token)
 
     for round in rounds:
         if Round(round) == Round.GENERATE:
             random_numbers += chsh_circuit.generate_numbers()
         elif Round(round) == Round.CHECK:
-            violations = chsh_circuit.check_chsh(next(bases_iter))
+            violations = chsh_circuit.check_chsh(('Z', 'X'))
             failures = [v for v in violations if v < threshold]
             if failures:
                 raise AbortGeneration(failures, threshold)

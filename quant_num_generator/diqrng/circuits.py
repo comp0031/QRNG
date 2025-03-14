@@ -9,7 +9,6 @@ simulated = 'FakeBrisbane' # Change to simulate other QPUs
 dynamic_fake_provider = __import__('qiskit_ibm_runtime.fake_provider', fromlist=[simulated])
 fake = getattr(dynamic_fake_provider, simulated)
 
-
 class ChshCircuit:
 
     def __init__(self, num_pairs: int, token: str | None) -> None:

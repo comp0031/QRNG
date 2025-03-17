@@ -170,6 +170,16 @@ class SeededExtractors():
             print("")
         return self.entropies
     
+    def write_output(self, destination="extracted_output"):
+        for name, methods in self.extracted_data.items():
+            for method, result in methods.items():
+                filepath = f"{destination}/{method}/{name}.bin"
+                if not os.path.exists(os.path.dirname(filepath)):
+                    os.makedirs(os.path.dirname(filepath))
+                with open(filepath, "wb") as f:
+                    f.write(np.packbits(np.array(result, dtype=np.uint8)))
+                print(f"Extracted bits written to {filepath}")
+    
 if __name__ == '__main__':
     files = {
     "1024_input": "q_gen_input/1024_quantum.bin",

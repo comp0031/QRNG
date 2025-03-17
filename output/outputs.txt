@@ -1,0 +1,34 @@
+
+======= Extracted ========
+1024_extracted.txt => shannon: 0.999909 (time: 0.0001s), chi_squared: 0.303371 (time: 0.0000s), bias: 0.005618 (time: 0.0000s), min_entropy: 0.983880 (time: 0.0000s), collision: 0.999818 (time: 0.0000s), renyi: 0.999818 (time: 0.0000s), chsh: 0.267568 (time: 0.0000s), bit_efficiency: 0.000409 (time: 0.0000s), 
+10k_extracted.txt => shannon: 0.999848 (time: 0.0000s), chi_squared: 4.710824 (time: 0.0000s), bias: 0.007270 (time: 0.0000s), min_entropy: 0.979175 (time: 0.0000s), collision: 0.999695 (time: 0.0000s), renyi: 0.999695 (time: 0.0000s), chsh: 0.267568 (time: 0.0000s), bit_efficiency: 0.000044 (time: 0.0001s), 
+10k_0s_extracted.txt => shannon: 1.000000 (time: 0.0000s), chi_squared: 0.000000 (time: 0.0000s), bias: 0.000000 (time: 0.0000s), min_entropy: 1.000000 (time: 0.0000s), collision: 1.000000 (time: 0.0000s), renyi: 1.000000 (time: 0.0000s), chsh: 0.267568 (time: 0.0000s), bit_efficiency: 0.002646 (time: 0.0000s), 
+12M_extracted.txt => shannon: 1.000000 (time: 0.0217s), chi_squared: 0.000409 (time: 0.0123s), bias: 0.000002 (time: 0.0085s), min_entropy: 0.999995 (time: 0.0103s), collision: 1.000000 (time: 0.0117s), renyi: 1.000000 (time: 0.0106s), chsh: 0.267568 (time: 0.0000s), bit_efficiency: 0.000000 (time: 0.0164s), 
+420k_extracted.txt => shannon: 0.999633 (time: 0.0009s), chi_squared: 481.709369 (time: 0.0003s), bias: 0.011278 (time: 0.0002s), min_entropy: 0.967821 (time: 0.0003s), collision: 0.999266 (time: 0.0002s), renyi: 0.999266 (time: 0.0003s), chsh: 0.267568 (time: 0.0000s), bit_efficiency: 0.000001 (time: 0.0004s), 
+
+======= Extracted Scalability ========
+shannon: slope=0.5425, intercept=-6.3574
+chi_squared: slope=0.5550, intercept=-6.5792
+bias: slope=0.5445, intercept=-6.5944
+min_entropy: slope=0.5514, intercept=-6.5638
+collision: slope=0.5483, intercept=-6.5417
+renyi: slope=0.5463, intercept=-6.5309
+chsh: slope=N/A (fixed input)
+bit_efficiency: slope=0.5422, intercept=-6.2904
+
+======= Generated ========
+12M_quantum.bin => shannon: 0.999599 (time: 0.0064s), chi_squared: 7062.068535 (time: 0.0020s), bias: 0.011791 (time: 0.0013s), min_entropy: 0.966375 (time: 1.2972s), collision: 0.999198 (time: 1.2909s), renyi: 0.999198 (time: 1.3162s), chsh: 0.267568 (time: 0.0000s), bit_efficiency: 0.000000 (time: 1.2724s), 
+1024_quantum.bin => shannon: 0.999931 (time: 0.0002s), chi_squared: 0.097656 (time: 0.0000s), bias: 0.004883 (time: 0.0000s), min_entropy: 0.985980 (time: 0.0001s), collision: 0.999862 (time: 0.0001s), renyi: 0.999862 (time: 0.0001s), chsh: 0.267568 (time: 0.0000s), bit_efficiency: 0.000963 (time: 0.0002s), 
+10k_quantum.bin => shannon: 0.999967 (time: 0.0001s), chi_squared: 0.462400 (time: 0.0000s), bias: 0.003400 (time: 0.0000s), min_entropy: 0.990223 (time: 0.0011s), collision: 0.999933 (time: 0.0010s), renyi: 0.999933 (time: 0.0011s), chsh: 0.267568 (time: 0.0000s), bit_efficiency: 0.000099 (time: 0.0011s), 
+10k_0s.bin => shannon: 0.039207 (time: 0.0000s), chi_squared: 9832.705600 (time: 0.0000s), bias: 0.495800 (time: 0.0000s), min_entropy: 0.006072 (time: 0.0011s), collision: 0.012118 (time: 0.0011s), renyi: 0.012118 (time: 0.0012s), chsh: 0.267568 (time: 0.0000s), bit_efficiency: 0.000001 (time: 0.0011s), 
+420k_q_error_corrected.bin => shannon: 0.999566 (time: 0.0003s), chi_squared: 252.497152 (time: 0.0001s), bias: 0.012260 (time: 0.0001s), min_entropy: 0.965053 (time: 0.0440s), collision: 0.999133 (time: 0.0437s), renyi: 0.999133 (time: 0.0427s), chsh: 0.267568 (time: 0.0000s), bit_efficiency: 0.000002 (time: 0.0424s), 
+
+======= Generated Scalability ========
+shannon: slope=0.5009, intercept=-6.2830
+chi_squared: slope=0.4643, intercept=-6.2852
+bias: slope=0.4427, intercept=-6.2108
+min_entropy: slope=0.9834, intercept=-6.8924
+collision: slope=0.9832, intercept=-6.8903
+renyi: slope=0.9842, intercept=-6.8932
+chsh: slope=N/A (fixed input)
+bit_efficiency: slope=0.9725, intercept=-6.8189

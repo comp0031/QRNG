@@ -1,0 +1,242 @@
+\documentclass[lettersize,journal]{IEEEtran}
+\usepackage{amsmath,amsfonts}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{array}
+\usepackage{braket}
+\usepackage{hyperref}
+\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+\usepackage{textcomp}
+\usepackage{stfloats}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage{tcolorbox}  
+\usepackage{mdframed} 
+\usepackage{xcolor}
+\usepackage{cite}
+\hyphenation{op-tical net-works semi-conduc-tor IEEE-Xplore}
+
+\begin{document}
+
+\title{Group Research Project}
+
+\author{Sara Abdullahi, Benjamin Alexander, Farhaan Fayaz, Nikolaos Genethlis, Matthew Gomez Cullen, Jasper Koenig, Matilda Moore, Ollie Stone, Antoni Wuczynski}
+
+% The paper headers
+\markboth{COMP0031 Group Research Project, March 2025}%
+{}
+
+\maketitle
+
+\begin{abstract}
+The abstract
+\end{abstract}
+
+\begin{IEEEkeywords}
+Quantum, Randomness, Randomness Extractors, Entropy, Quantum Error Correction, DIQKD
+\end{IEEEkeywords}
+
+\section{Introduction}
+\IEEEPARstart{T}{rue} randomness is a fundamental resource in modern computing and cryptography, with applications spanning from secure key generation to Monte Carlo simulations. Classical random number generators are deterministic, relying on complex algorithms with seed values to produce sequences that appear random but are ultimately predictable given sufficient knowledge of the system. In contrast, quantum mechanics offers a path to generating genuinely nondeterministic randomness based on inherent probabilistic characteristics of quantum systems.
+
+Quantum random number generators (QRNGs) leverage quantum phenomena such as superposition and entanglement to produce unpredictable outputs. The unpredictability of these outputs is guaranteed by the laws of quantum mechanics rather than computational complexity, providing a stronger theoretical foundation for randomness. However, practical implementations of QRNGs face challenges due to device imperfections, which can introduce biases and reduce the quality of the generated randomness.
+
+This research explores three distinct approaches to quantum random number generation:
+\begin{itemize}
+    \item Basic QRNG: A straightforward implementation utilizing superposition and measurement of a single qubit.
+    \item Bipartite Device-Independent QRNG (DIQRNG): A protocol leveraging entanglement between two qubits and Bell's inequality to ensure device independence.
+    \item Tripartite DIQRNG: An extension of the bipartite approach utilizing three-qubit entanglement and Mermin's inequality.
+\end{itemize}
+
+For each approach, we investigate the theoretical foundations, implementation challenges, and practical performance. We also explore post-processing techniques through randomness extractors to improve the quality of the raw quantum output. The goal is to provide a comprehensive comparative analysis of these methods, highlighting their respective strengths, limitations, and suitability for various applications in the context of current quantum computing hardware.
+
+\section{Quantum Error Correction}
+While the Hadamard-measure circuit discussed theoretically provides perfect randomness, in reality this is not the case due to error.
+Current quantum hardware cannot reliably prepare a perfect $\ket{0}$ state or perform a perfect Hadamard, causing the resulting state to have a slight bias towards 0 or 1.
+We experimented with improving the quality of randomness by attempting to correct the error in the quantum computer.
+
+According to the Qiskit NoiseModel's documentation \cite{qiskitNoiseModelDocs}, there are three important errors to consider:
+\begin{itemize}
+    \item depolarization errors
+    \item thermal relaxation errors
+    \item readout errors
+\end{itemize}
+
+Depolarization errors map pure input states in $\mathbb{C}^d$ onto mixed output states, being linear combinations of themselves and the maximally mixed state (the $d \times d$ identity matrix $I$) (equation \ref{eq:depolarization}) \cite{king2003}.
+Notably, a property of the maximally mixed state is that all measurement outcomes are equally likely, which is our goal anyway, so depolarization errors are not relevant to us.
+\begin{equation}
+    \Delta_\lambda(\rho) = \lambda \rho + \frac{1 - \lambda}{d}I
+    \label{eq:depolarization}
+\end{equation}
+
+Thermal relaxation errors are caused by the tendency of qubits to exchange energy with the environment over time, resetting to the ground or excited state \cite{georgopoulos2021}.
+For the IBM Kyiv computer we are utilising, this is always towards the ground ($\ket{0}$) state.
+
+Readout errors occur when a quantum computer reads the wrong state when measuring a qubit.
+As this is a hardware issue it is practically impossible to correct, and instead post-processing is used to mitigate the errors \cite{aasen2024}.
+However, since, in other sections, we are exploring more sophisticated post-processing methods such as randomness extractors to achieve better randomness from the noisy data, we didn't deem this worth exploring.
+Further, if the qubits we prepared were perfectly random and only measurement error remained, we'd expect the number of 0s misread as 1s to be equal to the number of 1s misread as 0s, essentially making readout error irrelevant.
+
+With this in mind, we sought to improve randomness by correcting for imperfect gates and thermal decomposition error.
+As a proof of concept, we replaced the Hadamard with the unitary in equation \ref{eq:rotation}.
+
+\begin{equation}
+    U_\alpha = \begin{bmatrix}
+        \cos \alpha & -\sin \alpha \\ 
+        \sin \alpha & \cos \alpha
+        \label{eq:rotation}
+    \end{bmatrix}
+\end{equation}
+
+When $\alpha = \frac{\pi}{4}$, this matrix is equivalent to Hadamard up to a phase on $\ket{1}$ (equation \ref{eq:rotation_pi_over_4}), and importantly has the same probability distribution when measuring.
+
+\begin{equation}
+    U_\frac{\pi}{4} = \frac{1}{\sqrt{2}} \begin{bmatrix}
+        1 & -1 \\
+        1 & 1
+        \label{eq:rotation_pi_over_4}
+    \end{bmatrix}
+\end{equation}
+
+We can think of the error as an invisible matrix $E$ that applies a slight rotation after each operation we perform, representing the imperfect preparation $E_P$ and thermal decomposition error $E_T$ (as the execution time for the circuit is constant on average).
+That is, when we request the circuit $U_\frac{\pi}{4} \ket{0}$, we instead get $E_T U_\frac{\pi}{4} E_P \ket{0}$.
+To correct this, we attempt to find the angle $\alpha$ such that $U_\alpha \approx E_T^{\dagger} U_\frac{\pi}{4} E_P^{\dagger}$.
+This is an optimisation problem, as altering the $U$ gate to correct the errors is likely to change the errors themselves.
+
+For a truly uniform superposition, we'd expect the mean of the observed values to be exactly $0.5$ for a sufficiently large sample, so we sought to find the optimal value of $\alpha$ by minimising the absolute difference of the mean and $0.5$.
+For values of $\alpha$ between $\frac{\pi}{4} - 0.01$ and $\frac{\pi}{4} + 0.01$ at increments of $0.00005$, we calculated the absolute error of the mean, by measuring $U_\alpha \ket{0}$ one million times in a Qiskit AerSimulator based on the IBM Kyiv backend.
+However, when plotting the data (figure \ref{fig:error_correction_graph}, we observed that the variation was not as smooth as we had hoped, and that the difference between the optimal value and $\frac{\pi}{4}$ wasn't significant to rule out luck.
+Utilising a custom unitary in this way also requires more gates to implement in the real quantum computer's standard gateset (figure \ref{fig:error_correction_circuit}), and each of these would introduce more error and increase runtime, so ultimately we decided this avenue was not viable.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{error_correction_graph.png}
+    \caption{Absolute error of the mean For different values of $\alpha$}
+    \label{fig:error_correction_graph}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{error_correction_circuit.png}
+    \caption{Circuit Implement $U_\alpha$ for the discovered optimal $\alpha$}
+    \label{fig:error_correction_circuit}
+\end{figure}
+
+\section{Basic Quantum Random Number Generation}
+The simplest form of quantum random number generation uses simple superposition preparation and measurement. When a quantum system in a superposition state is measured, it nondeterministically collapses to one of its basis states with probabilities determined by the amplitudes of the superposition. This inherent randomness is a fundamental feature of quantum mechanics, making it an ideal basis for true random number generation.
+
+Our basic QRNG implementation follows a straightforward protocol using a single qubit:
+\begin{enumerate}
+    \item Initialize a qubit in the $\ket{0}$ state
+    \item Apply a Hadamard gate to create an equal superposition: $H\ket{0} = \frac{1}{\sqrt{2}}(\ket{0} + \ket{1})$
+    \item Measure the qubit in the computational basis, producing a 0 or 1 with equal probability
+    \item Repeat to generate a sequence of random bits
+\end{enumerate}
+
+The quantum circuit for this protocol is remarkably simple (Figure \ref{fig:basic_qrng_circuit}), consisting of just a single Hadamard gate and measurement. Theoretically, this approach provides perfect randomness, as the measurement outcomes should be completely unpredictable with a uniform distribution (50\% probability for each outcome).
+
+\begin{figure}
+    \centering
+    % Placeholder for the basic QRNG circuit diagram
+    % \includegraphics[width=0.6\linewidth]{basic_qrng_circuit.png}
+    \caption{Circuit diagram for the basic QRNG protocol using a Hadamard gate}
+    \label{fig:basic_qrng_circuit}
+\end{figure}
+
+The protocol used in our experiments is described in Box \ref{box:Basic QRNG Protocol}.
+
+\begin{tcolorbox}[width=8cm, height=6cm, colback=gray!10, colframe=gray!70, title= Basic QRNG Protocol]
+    \textbf{Step 1:} Initialize a quantum circuit with a single qubit in the $\ket{0}$ state. \\
+    \textbf{Step 2:} Apply a Hadamard gate to create the superposition state $\frac{1}{\sqrt{2}}(\ket{0} + \ket{1})$. \\
+    \textbf{Step 3:} Measure the qubit in the computational basis.
+    \label{box:Basic QRNG Protocol}
+\end{tcolorbox}
+
+Despite its theoretical simplicity, practical implementations of this protocol face challenges due to hardware imperfections. As discussed in Section II on Quantum Error Correction, factors such as imperfect state preparation, gate operations, and measurement can introduce biases in the output distribution. In our experiments using IBM's quantum computers, we observed slight biases in the raw output, necessitating post-processing through randomness extractors to improve the quality of the randomness.
+
+Such a basic protocol is also vulnerable to faulty devices and maliciously designed devices.
+
+\section{Device-Independent Quantum Random Number Generation (DIQRNG)}
+\subsection{Bipartite DIQRNG}
+The bipartite Device-Independent Quantum Random Number Generation (DIQRNG) protocol addresses a significant limitation of the basic QRNG approach: the need to trust the quantum devices used. In scenarios where the device might be compromised or imperfectly characterized, basic QRNG cannot guarantee the quality of randomness. Bipartite DIQRNG solves this problem by utilizing entanglement and Bell's inequality to certify the quantum nature of the process without trusting the internal workings of the devices.
+
+The protocol is based on the maximally entangled state of two qubits:
+\begin{equation}
+    \ket{\Phi^+} = \frac{1}{\sqrt{2}}(\ket{00} + \ket{11})
+    \label{eq:bell_state}
+\end{equation}
+
+The central concept relies on the CHSH (Clauser-Horne-Shimony-Holt) inequality, a specific form of Bell's inequality:
+\begin{equation}
+    S = \langle A_1 B_1 \rangle + \langle A_1 B_2 \rangle + \langle A_2 B_1 \rangle - \langle A_2 B_2 \rangle \leq 2
+    \label{eq:chsh}
+\end{equation}
+
+Where $A_i$ and $B_j$ represent measurement operators applied by to the two qubits, with outcomes $\pm 1$. Any local hidden variable theory (classical theory) must satisfy $S \leq 2$, while quantum mechanics allows for violations up to $S = 2\sqrt{2} \approx 2.82$ when using appropriately chosen measurement settings on an entangled state. It should be noted that given our use of a single quantum computer we are unable to close the locality loophole, and so the violation of Bell's inequality does not prove security. It does however provide a quantifiable measure of the accuracy of the quantum computer's processing.
+
+The bipartite DIQRNG protocol alternates between "generation rounds" and "checking rounds" as outlined in Box \ref{box:Bipartite DIQRNG Protocol}.
+
+\begin{tcolorbox}[width=8cm, height=9cm, colback=gray!10, colframe=gray!70, title= Bipartite DIQRNG Protocol]
+    \textbf{Step 1:} Generate a random sequence of length $N$ to determine whether each round will be a generation round (0) or a checking round (1).  \\
+    \textbf{Repeat $N$ times steps 2-4}\\
+    \textbf{Step 2:} Prepare a Bell state $\ket{\Phi^+} = \frac{1}{\sqrt{2}}(\ket{00} + \ket{11})$.\\
+    \textbf{Step 3:} If round $i$ is a generation round (0):
+    \begin{itemize}
+        \item Measure both qubits in the computational basis
+        \item Record one of the measurement outcomes as the random bit
+    \end{itemize}
+    \textbf{Step 4:} If round $i$ is a checking round (1):
+    \begin{itemize}
+        \item Randomly select measurement settings for Alice and Bob optimized for maximum CHSH violation
+        \item Perform the measurements and record the outcomes
+        \item Calculate the contribution to the overall CHSH statistic
+    \end{itemize}
+    \textbf{Step 5:} After all rounds, calculate the final CHSH value from the checking rounds.\\
+    \textbf{Step 6:} If the CHSH value exceeds a predefined threshold (typically $>2$, approaching $2\sqrt{2}$), accept the random bits from generation rounds. Otherwise, abort the protocol.
+    \label{box:Bipartite DIQRNG Protocol}
+\end{tcolorbox}
+
+The key advantage of this protocol is its device independence—the violation of the CHSH inequality certifies that the devices are operating according to quantum mechanics rather than any classical model, regardless of their internal construction. This certification guarantees that the generated random bits were generated non deterministically, and are therefore unpredictable.
+
+\subsection{Tripartite DIQRNG}
+A different approach to Device-Independent Quantum Random Number Generation uses tripartite systems instead of bipartite systems. Indeed, one of the GHZ states involving three-qubit entanglement is prepared and measured to produce random numbers : 
+\begin{equation}
+    \ket{GHZ} = \frac{1}{\sqrt{2}}(\ket{000}+\ket{111}) 
+    \label{eq:ghz}
+\end{equation}
+
+Bipartite systems are truly quantum when their expectation values violate Bell's inequality as mentioned in Section III. For tripartite systems, Mermin's inequality (ref) can disprove local realism, namely, classical interference. Below is an example of Mermin's inequality for a three-qubit system:
+\begin{equation}
+    <XXX>-<YYX>-<YXY>-<XYY>\leq 2 
+    \label{eq:mermin}
+\end{equation}
+
+Mermin's inequality is a generalisation of Bell's inequality for entangled systems with three or more qubits. Each party, randomly selects one of two measurement basis $X$ or $Y$, and performs a measurement on their respective system. It will be seen, that regardless of the observable used, if the subsystems are entangled, the results will always be correlated in away that cannot happen classically. The expectation of each outcome is used to calculate the   In order to define a quantum model, $|M|\geq 2$ and $|M|\leq 4$. (note : not finished yet, restructurer par + mettre ref + reformuler un peu/ plus clair)
+
+The protocol used in this experiment is described in Box \ref{box:Tripartite DIQRNG Protocol}.
+
+\begin{tcolorbox}[width=8cm, height=9cm, colback=gray!10, colframe=gray!70, title= Tripartite DIQRNG Protocol]
+    \textbf{Step 1:} Compute and extend the hash of a PDF file to the length $N$ of rounds, where 0 is a generation round and 1 is a checking round.  \\
+    \textbf{Repeat $N$ times steps 2, 3}\\
+    \textbf{Step 2:} If $N_i$ == 0, prepare the GHZ state, measure the circuit, retrieve the triple containing the outcome and randomly select the value $i^{th}$ from the triple.\\
+    \textbf{Step 3:} If $N_i$ == 1, prepare the GHZ state and Mermin observables, calculate the Mermin value based on the results. Add the result to the total Mermin sum.\\
+    \textbf{Step 4:} Divide the Mermin sum by the number of checking rounds and compare the results with the Mermin bounds. If the value is within the bounds, continue. Otherwise, abort the protocol.\\
+    \textbf{Step 5:} If the protocol continues, return the values from the generation rounds to obtain the random generated number.
+    \label{box:Tripartite DIQRNG Protocol}
+\end{tcolorbox}
+ 
+Although the protocol is computationally expensive because it requires frequent testing of Mermin's inequality, it permits random number generation with an untrusted device. The following method can allow for imperfect generation devices or even devices manufactured by an adversary. 
+The described protocol generated sequences of approximatively 100, 500, 1000, and 4000 bits. 
+
+\section{Randomness Extraction}
+\subsection{Unseeded}
+(matilda)
+\subsection{Seeded}
+
+\pagebreak
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

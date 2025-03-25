@@ -147,9 +147,9 @@ def save_random_nums(bitstring: str, filename: str) -> None:
 if __name__ == "__main__":
 
     pdf_path = (
-        "quant_num_generator/tripartite-diqrng/pdfcoffee.com-emily-remler copy.pdf"
+        "tripartite-diqrng/pdfcoffee.com-emily-remler copy.pdf"
     )
-
+    #"tripartite-diqrng/pdfcoffee.com-emily-remler copy.pdf"
     sequences = {
         "100_bits": hash_pdf_to_number(pdf_path, 256),
         "500_bits": hash_pdf_to_number(pdf_path, 1024),

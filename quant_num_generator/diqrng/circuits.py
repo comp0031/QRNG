@@ -15,21 +15,29 @@ BASES = [('Z', 'Z'), ('Z', 'X'), ('X', 'Z'), ('X', 'X')]
 
 class ChshCircuit:
 
-    def __init__(self, num_pairs: int, token: str | None, angle: float=math.pi/4) -> None:
+    def __init__(self, num_pairs: int, token: str | None, angle: float=math.pi/4, backend: str | None=None) -> None:
         if token:
             service = QiskitRuntimeService(channel="ibm_quantum", token=token)
-            self._backend = service.least_busy(operational=True, simulator=False, min_num_qubits=num_pairs * 2)
+            if backend:
+                self._backend = service.backend(backend)
+            else:
+                self._backend = service.least_busy(
+                    operational=True,
+                    simulator=False,
+                    min_num_qubits=num_pairs * 2
+                )
             self._sampler = SamplerV2(mode=self._backend)
             self._simulated = False
         else:
-            print(f"Using simulated circuit ('{simulated}')")
             self._backend = fake()
             self._sampler = AerSimulator.from_backend(self._backend)
             self._simulated = True
         self._estimator = EstimatorV2(mode=self._backend)
         self.num_qubits = num_pairs * 2
         self._angle = angle
-        self._measurements: dict[int, dict[tuple, int]] = {i: {basis: 0 for basis in BASES} for i in range(num_pairs)}
+        self._measurements: dict[int, dict[tuple, int]] = {
+            i: {basis: 0 for basis in BASES} for i in range(num_pairs)
+        }
         self._num_measurements: dict[tuple, int] = {basis: 0 for basis in BASES}
 
     
@@ -49,18 +57,16 @@ class ChshCircuit:
         pass_manager = generate_preset_pass_manager(backend=self._backend, optimization_level=1)
         circuit = pass_manager.run(circuit)
 
-        result = self._sampler.run([circuit], shots=num_shots).result()
         if self._simulated:
-            counts = result.get_counts(0)
-            bits = ''.join(counts.keys())
+            result = self._sampler.run([circuit], shots=num_shots, memory=True).result() # type: ignore
+            bitstrings = result.get_memory()
         else:
+            result = self._sampler.run([circuit], shots=num_shots).result()
             bitstrings = result[0].data.meas.get_bitstrings()
-            bits =  ''.join(bitstrings)
-
-        return bits[::2]
+        return ''.join(bitstrings)[::2]
 
 
-    def check_measurement(self, basis: tuple, num_shots: int) -> None:
+    def measure_chsh_basis(self, basis: tuple, num_shots: int) -> None:
         if not num_shots:
             return
         circuit = self._generate_entangled_qubits()
@@ -70,7 +76,10 @@ class ChshCircuit:
         if B == 'X':
             circuit.h(range(1, self.num_qubits, 2))
         circuit.measure_all()
-        pass_manager = generate_preset_pass_manager(target=self._backend.target, optimization_level=3)
+        pass_manager = generate_preset_pass_manager(
+            target=self._backend.target,
+            optimization_level=3
+        )
         circuit: QuantumCircuit = pass_manager.run(circuit)
         
         result = self._sampler.run([circuit], shots=num_shots).result()

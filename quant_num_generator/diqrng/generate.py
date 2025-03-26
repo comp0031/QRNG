@@ -25,7 +25,8 @@ def generate(
         gen_shots: int=1,
         check_shots=10,
         uncertainty=0.20,
-        angle=math.pi/4
+        angle=math.pi/4,
+        backend: str | None=None
     ) -> str:
     """
     Generate random numbers using the CHSH protocol. The number of random numbers generated will \
@@ -56,7 +57,7 @@ def generate(
     random_numbers = ""
     threshold = get_threshold(uncertainty)
     iter_bases = iter(bases) if bases else cycle([('Z', 'Z'), ('Z', 'X'), ('X', 'Z'), ('X', 'X')])
-    chsh_circuit = circuits.ChshCircuit(num_pairs, token, angle)
+    chsh_circuit = circuits.ChshCircuit(num_pairs, token, angle, backend)
     num_gens = 0
 
     for round in rounds:
@@ -65,7 +66,7 @@ def generate(
         elif Round(round) == Round.CHECK:
             random_numbers += chsh_circuit.generate_numbers(num_shots=gen_shots * num_gens)
             num_gens = 0
-            chsh_circuit.check_measurement(next(iter_bases), num_shots=check_shots)
+            chsh_circuit.measure_chsh_basis(next(iter_bases), num_shots=check_shots)
         else:
             raise ValueError(f"Round type not recognised: {round}")
     
@@ -78,6 +79,7 @@ def generate(
         raise AbortGeneration(failures, threshold)
 
     # Generate any remaining random numbers
+    print("Generating ", gen_shots * num_gens * num_pairs, " random numbers")
     random_numbers += chsh_circuit.generate_numbers(num_shots=gen_shots * num_gens)
     return random_numbers
 

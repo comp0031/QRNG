@@ -33,7 +33,7 @@ def main() -> None:
 
         file_paths = [os.path.join(category_path, file_name) for file_name in os.listdir(category_path)]
 
-        # calculate metrics for each file
+        # === efficiency start === 
         for file_path in file_paths:
             file_name = os.path.basename(file_path)
 
@@ -61,9 +61,7 @@ def main() -> None:
                 percent = diff / pre * 100
                 bit_efficiency[file_name][3] = percent
 
-
-            print(bit_efficiency)
-
+            # === efficiency end === 
 
             output_str = f"{file_name} => "
             for entropy_name, _ in METHODS.items():
@@ -92,11 +90,12 @@ def main() -> None:
                     f.write(f"{entropy_name}: slope=N/A (fixed input)\n")
                     print(f"{entropy_name}: slope=N/A (fixed input)")
 
-        # show bit efficiency in output
+        # === efficiency start === 
         with open(output_path, "a") as f:
             f.write(f"\n======= Efficiency ========\n")
             for key, val in bit_efficiency.items():
                 f.write(f"{key}: inp_num = {val[0]}, out_num = {val[1]}, diff = {val[2]}, percent = {val[3]}\n")                
+        # === efficiency end === 
 
 if __name__ == "__main__":
     main()

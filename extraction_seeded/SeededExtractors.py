@@ -171,7 +171,7 @@ class SeededExtractors():
     def write_output(self, destination="extracted_output"):
         for name, methods in self.extracted_data.items():
             for method, result in methods.items():
-                filepath = f"{destination}/{name}_extracted_using_{method}.bin"
+                filepath = f"{destination}/{name.split('.')[0]}_extracted_using_{method}.bin"
                 if not os.path.exists(os.path.dirname(filepath)):
                     os.makedirs(os.path.dirname(filepath))
                 with open(filepath, "wb") as f:

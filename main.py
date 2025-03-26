@@ -1,5 +1,6 @@
 import os
 from entropy import METHODS, measure_time, scalability
+from extraction_seeded.SeededExtractors import SeededExtractors
 
 def get_chsh_estimates():
     """
@@ -20,22 +21,26 @@ def main() -> None:
     generated_path = os.path.join("inp", "generated")
 
     data = {
-        "Extracted": extracted_path,
         "Generated": generated_path,
+        "Extracted": extracted_path,
     }
-
     # iterate through categories and files
     for category, category_path in data.items():
         with open(output_path, "a") as f:
             f.write(f"\n======= {category} ========\n")
 
         file_paths = [os.path.join(category_path, file_name) for file_name in os.listdir(category_path)]
-
+        if category == "Generated":
+            methods = ["circulant", "dodis", "toeplitz", "trevisan"]
+            seeded_extractor = SeededExtractors(file_paths, methods)
         # calculate metrics for each file
         for file_path in file_paths:
             file_name = os.path.basename(file_path)
             output_str = f"{file_name} => "
             for entropy_name, _ in METHODS.items():
+                if entropy_name == "min_entropy" and category == "Generated":
+                    H, t = measure_time(file_path, entropy_name, METHODS)
+                    seeded_extractor.adjust_entropies(file_name, H)
                 if entropy_name == "chsh":
                     chsh1_est, chsh2_est = get_chsh_estimates()
                     H, t = measure_time(file_path, entropy_name, METHODS, chsh1_est, chsh2_est)
@@ -46,20 +51,23 @@ def main() -> None:
             print(output_str)
             with open(output_path, "a") as f:
                 f.write(output_str + "\n")
+        if category == "Generated":
+            seeded_extractor.extract_randomness()
+            seeded_extractor.write_output(extracted_path)
 
         # compute scalability for this category
-        with open(output_path, "a") as f:
-            f.write(f"\n======= {category} Scalability ========\n")
-            # sort file_paths by size for better regression
-            file_paths.sort(key=lambda x: os.path.getsize(x))
-            for entropy_name in METHODS:
-                if entropy_name != "chsh":  # CHSH doesn't depend on file size
-                    slope, intercept = scalability(file_paths, entropy_name, METHODS)
-                    f.write(f"{entropy_name}: slope={slope:.4f}, intercept={intercept:.4f}\n")
-                    print(f"{entropy_name}: slope={slope:.4f}, intercept={intercept:.4f}")
-                else:
-                    f.write(f"{entropy_name}: slope=N/A (fixed input)\n")
-                    print(f"{entropy_name}: slope=N/A (fixed input)")
+        # with open(output_path, "a") as f:
+        #     f.write(f"\n======= {category} Scalability ========\n")
+        #     # sort file_paths by size for better regression
+        #     file_paths.sort(key=lambda x: os.path.getsize(x))
+        #     for entropy_name in METHODS:
+        #         if entropy_name != "chsh":  # CHSH doesn't depend on file size
+        #             slope, intercept = scalability(file_paths, entropy_name, METHODS)
+        #             f.write(f"{entropy_name}: slope={slope:.4f}, intercept={intercept:.4f}\n")
+        #             print(f"{entropy_name}: slope={slope:.4f}, intercept={intercept:.4f}")
+        #         else:
+        #             f.write(f"{entropy_name}: slope=N/A (fixed input)\n")
+        #             print(f"{entropy_name}: slope=N/A (fixed input)")
 
 if __name__ == "__main__":
     main()

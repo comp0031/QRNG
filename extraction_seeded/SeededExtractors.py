@@ -20,16 +20,18 @@ class SeededExtractors():
         self.per_bit_entropies = {}
         self.extracted_data = {}
         self.entropies = {}
-        for name, path in filepaths.items():
+        for path in filepaths:
+            name = os.path.basename(path)
             if os.path.exists(path):
                 data_sets[name] = self.load_binary(path)
                 print(f"Loaded {name}: {len(data_sets[name])} bits")
             else:
                 print(f"File {path} not found.")
         self.data_sets = data_sets
-        for name, bit_array in self.data_sets.items():
-            self.k1_values[name], self.per_bit_entropies[name] = self.estimate_min_entropy_frequency(bit_array)
 
+    def adjust_entropies(self, filename, entropy_per_bit):
+        self.per_bit_entropies[filename] = entropy_per_bit
+        self.k1_values[filename] = entropy_per_bit * len(self.data_sets[filename])
 
     def estimate_min_entropy_frequency(self, bit_array):
         n = len(bit_array)
@@ -119,16 +121,17 @@ class SeededExtractors():
             else:
                 raise RuntimeError("Could not determine expected seed length from cerr output")
 
-    def call_extractors(self, bits, k1):
+    def call_extractors(self, bits, k1, length):
         data = {}
         for method in self.methods:
+            print(f"Extracting using {method}, for {length} bits")
             if method == "toeplitz":
                 data["toeplitz"] = self.extract_randomness_toeplitz(bits, k1)
             elif method == "circulant":
                 data["circulant"] = self.extract_randomness_circulant(bits, k1)
             elif method == "dodis":
                 data["dodis"] = self.extract_randomness_dodis(bits, k1)
-            elif method == "trevisan":
+            elif method == "trevisan" and length < 300000:  #skipping trevisan for large files
                 data["trevisan"] = self.extract_randomness_trevisan(bits, k1)
         return data
 
@@ -138,18 +141,12 @@ class SeededExtractors():
             if len(bits) > 1 and name in self.k1_values:
                 k1 = self.k1_values[name]
                 if k1 > 0:
-                    self.extracted_data[name] = self.call_extractors(bits, k1)
-                    # self.extracted_data[name] = {
-                    #     "toeplitz": self.extract_randomness_toeplitz(bits, k1),
-                    #     "circulant": self.extract_randomness_circulant(bits, k1),
-                    #     "dodis": self.extract_randomness_dodis(bits, k1),
-                    #     "trevisan": self.extract_randomness_trevisan(bits, k1)
-                    # }
-                    print(f"Extracted random bits for {name}")
+                    self.extracted_data[name] = self.call_extractors(bits, k1, len(self.data_sets[name]))
                 else:
                     print(f"Skipping {name}, insufficient min-entropy (k1 <= 0)")
             else:
                 print(f"Skipping {name}, not enough bits for extraction or missing k1 value")
+        return self.extracted_data
 
     def extract_entropies(self):
         for name, methods in self.extracted_data.items():
@@ -161,7 +158,8 @@ class SeededExtractors():
                 entropies_name[method] = {'overall_entropy' : method_entropy,
                                         'per_bit_entropy' : method_entropy_per_bit}
             self.entropies[name]=entropies_name
-        for name in self.filepaths.keys():
+        for pathh in self.filepaths:
+            name = os.path.basename(pathh)
             print(f"For {name}, starting with a total entropy of {self.k1_values[name]} and a per bit entropy of {og_entropy_per_bit}")
             for method in self.methods:
                 print(f"using {method} extraction")
@@ -173,7 +171,7 @@ class SeededExtractors():
     def write_output(self, destination="extracted_output"):
         for name, methods in self.extracted_data.items():
             for method, result in methods.items():
-                filepath = f"{destination}/{method}/{name}.bin"
+                filepath = f"{destination}/{name}_extracted_using_{method}.bin"
                 if not os.path.exists(os.path.dirname(filepath)):
                     os.makedirs(os.path.dirname(filepath))
                 with open(filepath, "wb") as f:
@@ -185,13 +183,27 @@ if __name__ == '__main__':
     "1024_input": "q_gen_input/1024_quantum.bin",
     "10k_input": "q_gen_input/10k_quantum.bin",
     "10k_0s_input": "q_gen_input/10k_0s.bin",
-    # "420k_input": "q_gen_input/420k_q_error_corrected.bin",
-    # "12M_input": "q_gen_input/12M_quantum.bin",
-    # "100k_FakeBrisbane": "q_gen_input/100_kFakeBrisbane_sim.bin",
-    # "100k_FakeKyiv": "q_gen_input/100_kFakeKyiv_sim.bin",
-    # "100k_FakeSherbrooke": "q_gen_input/100_kFakeSherbrooke_sim.bin",
+    "100k_FakeBrisbane": "q_gen_input/100_kFakeBrisbane_sim.bin",
+    "100k_FakeKyiv": "q_gen_input/100_kFakeKyiv_sim.bin",
+    "100k_FakeSherbrooke": "q_gen_input/100_kFakeSherbrooke_sim.bin",
     }
     methods = ["trevisan"] #"toeplitz", "circulant", "dodis"]#, "trevisan"]
+
+    seeded_extractor = SeededExtractors(files, methods)
+    seeded_extractor.extract_randomness()
+    seeded_extractor.extract_entropies()
+
+    files = {
+    "1024_input": "q_gen_input/1024_quantum.bin",
+    "10k_input": "q_gen_input/10k_quantum.bin",
+    "10k_0s_input": "q_gen_input/10k_0s.bin",
+    "420k_input": "q_gen_input/420k_q_error_corrected.bin",
+    "12M_input": "q_gen_input/12M_quantum.bin",
+    "100k_FakeBrisbane": "q_gen_input/100_kFakeBrisbane_sim.bin",
+    "100k_FakeKyiv": "q_gen_input/100_kFakeKyiv_sim.bin",
+    "100k_FakeSherbrooke": "q_gen_input/100_kFakeSherbrooke_sim.bin",
+    }
+    methods = ["toeplitz", "circulant", "dodis"]#, "trevisan"]
 
     seeded_extractor = SeededExtractors(files, methods)
     seeded_extractor.extract_randomness()

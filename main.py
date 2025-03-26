@@ -24,6 +24,8 @@ def main() -> None:
         "Generated": generated_path,
     }
 
+    bit_efficiency = {}
+
     # iterate through categories and files
     for category, category_path in data.items():
         with open(output_path, "a") as f:
@@ -34,6 +36,35 @@ def main() -> None:
         # calculate metrics for each file
         for file_path in file_paths:
             file_name = os.path.basename(file_path)
+
+            # num bits extracted, num bits generated
+            if file_path.endswith(".bin"):
+                num_bits = os.path.getsize(file_path)
+            else:
+                with open(file_path, "r") as f:
+                    num_bits = len(f.read())
+
+            if file_name not in bit_efficiency:
+                bit_efficiency[file_name] = [0, 0, 0, 0]  # [generated, extracted]
+
+            if category == "Generated":
+                bit_efficiency[file_name][0] = num_bits  # update generated
+            else:
+                bit_efficiency[file_name][1] = num_bits  # update extracted
+
+            pre = bit_efficiency[file_name][0]
+            post = bit_efficiency[file_name][1]
+            if pre != 0 and post != 0:
+                diff = pre - post
+                bit_efficiency[file_name][2] = diff
+
+                percent = diff / pre * 100
+                bit_efficiency[file_name][3] = percent
+
+
+            print(bit_efficiency)
+
+
             output_str = f"{file_name} => "
             for entropy_name, _ in METHODS.items():
                 if entropy_name == "chsh":
@@ -60,6 +91,12 @@ def main() -> None:
                 else:
                     f.write(f"{entropy_name}: slope=N/A (fixed input)\n")
                     print(f"{entropy_name}: slope=N/A (fixed input)")
+
+        # show bit efficiency in output
+        with open(output_path, "a") as f:
+            f.write(f"\n======= Efficiency ========\n")
+            for key, val in bit_efficiency.items():
+                f.write(f"{key}: inp_num = {val[0]}, out_num = {val[1]}, diff = {val[2]}, percent = {val[3]}\n")                
 
 if __name__ == "__main__":
     main()

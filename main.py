@@ -26,6 +26,7 @@ def main() -> None:
     }
     # iterate through categories and files
     bit_efficiency = {}
+    generated_bits = {}
     for category, category_path in data.items():
 
         file_paths = [os.path.join(category_path, file_name) for file_name in os.listdir(category_path)]
@@ -84,6 +85,65 @@ def main() -> None:
         if category == "Generated":
             seeded_extractor.extract_randomness()
             seeded_extractor.write_output(extracted_path)
+
+        # =========== efficiency final output =============
+        
+        for file_path in file_paths:
+        # Count bits
+            file_name = os.path.basename(file_path)
+            
+            # Determine number of bits (using file size for .bin files)
+            if file_path.endswith(".bin"):
+                num_bits = os.path.getsize(file_path)
+            else:
+                with open(file_path, "r") as f:
+                    num_bits = len(f.read())
+            
+            if category == "Generated":
+                # For a generated file, use the base name (without ".bin") as key for the generated_bits dict.
+                base_key = file_name.removesuffix(".bin")
+                generated_bits[base_key] = num_bits
+                
+                # Also store the generated file in bit_efficiency using the full file name.
+                if file_name not in bit_efficiency:
+                    bit_efficiency[file_name] = [0, 0, 0, 0]
+                bit_efficiency[file_name][0] = num_bits
+
+            else:  # category == "Extracted"
+                # Expecting filenames like: "10M_TRI_DIQRNG_extracted_using_toeplitz.bin"
+                if "_extracted_using_" in file_name:
+                    left, right = file_name.split("_extracted_using_")
+                    # Use the left part as the base name.
+                    base_key = left  # e.g. "10M_TRI_DIQRNG"
+                    method_name = right.removesuffix(".bin")  # e.g. "toeplitz"
+                    # Build a new key that combines the generated file name and the method.
+                    new_key = f"{base_key}.bin__{method_name}"
+                else:
+                    # Fallback if the expected pattern isn't found.
+                    base_key = file_name.removesuffix(".bin")
+                    new_key = file_name
+                
+                # Look up the generated bit count from our global dictionary.
+                gen_val = generated_bits.get(base_key, 0)
+                
+                # Create or update the extracted file's entry in bit_efficiency.
+                if new_key not in bit_efficiency:
+                    bit_efficiency[new_key] = [0, 0, 0, 0]
+                # Set the generated (inp_num) from the corresponding generated file.
+                bit_efficiency[new_key][0] = gen_val
+                # Set the extracted (out_num) value.
+                bit_efficiency[new_key][1] = num_bits
+                
+                # If we have a nonzero generated value, compute the difference and percent.
+                if gen_val != 0:
+                    diff = gen_val - num_bits
+                    bit_efficiency[new_key][2] = diff
+                    bit_efficiency[new_key][3] = diff / gen_val * 100
+
+        with open(output_path, "a") as f:
+            f.write(f"\n======= Efficiency ========\n")
+            for key, val in bit_efficiency.items():
+                f.write(f"{key}: inp_num = {val[0]}, out_num = {val[1]}, diff = {val[2]}, % = {val[3]}\n")   
 
         # compute scalability for this category
         # with open(output_path, "a") as f:

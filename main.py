@@ -94,7 +94,7 @@ def main() -> None:
             
             # Determine number of bits (using file size for .bin files)
             if file_path.endswith(".bin"):
-                num_bits = os.path.getsize(file_path)
+                num_bits = os.path.getsize(file_path) * 8
             else:
                 with open(file_path, "r") as f:
                     num_bits = len(f.read())

@@ -1,14 +1,10 @@
 import os
 from entropy import METHODS, measure_time, scalability
 from extraction_seeded.SeededExtractors import SeededExtractors
+import numpy as np
 
-def get_chsh_estimates():
-    """
-    Function to retrieve CHSH1 and CHSH2 estimates from a data source.
-    """
-    # TODO: Implement proper retrieval of CHSH values
-    chsh1_est, chsh2_est = 2.5, 2.6  # placeholder vals for now
-    return chsh1_est, chsh2_est
+# from experiment
+CHSHS = [2.774666666666667, 2.763466666666667, 2.7306, 2.6206, 2.7123333333333335, 2.7248]
 
 def main() -> None:
     output_path = os.path.join("output", "outputs.txt")
@@ -72,9 +68,6 @@ def main() -> None:
                 if entropy_name == "min_entropy" and category == "Generated":
                     H, t = measure_time(file_path, entropy_name, METHODS)
                     seeded_extractor.adjust_entropies(file_name, H)
-                if entropy_name == "chsh":
-                    chsh1_est, chsh2_est = get_chsh_estimates()
-                    H, t = measure_time(file_path, entropy_name, METHODS, chsh1_est, chsh2_est)
                 else:
                     H, t = measure_time(file_path, entropy_name, METHODS)
                 output_str += f"{entropy_name}: {H:.6f} (time: {t:.4f}s), "
@@ -144,6 +137,44 @@ def main() -> None:
             f.write(f"\n======= Efficiency ========\n")
             for key, val in bit_efficiency.items():
                 f.write(f"{key}: inp_num = {val[0]}, out_num = {val[1]}, diff = {val[2]}, % = {val[3]}\n")   
+
+
+    def chsh_min_entropy(*chsh: float) -> float:
+        """
+        Computes min-entropy based on CHSH violation for device-independent randomness.
+        
+        Parameters:
+            chsh (float): CHSH estimates from experiments.
+
+        Returns:
+            float: Min-entropy (higher means more quantum randomness).
+        """
+        #CHSH limits
+        # Classical bound (no quantum advantage)
+        # Max quantum violation (~2.828)
+
+        classical_limit = 2.0  
+        quantum_limit = 2 * np.sqrt(2)  
+
+        def compute_single_min_entropy(chsh_value: float) -> float:
+            """
+            Computes min-entropy from a single CHSH estimate.
+            """
+
+            chsh_value = max(classical_limit, min(chsh_value, quantum_limit))
+
+            P_guess = 0.5 + 0.5 * np.sqrt(2 - (chsh_value**2) / 4)
+            P_guess = min(1.0, P_guess)
+
+            # compute min-entropy
+            return -np.log2(P_guess)
+
+        return min(map(lambda x: compute_single_min_entropy(x), chsh))
+
+    with open(output_path, "a") as f:
+        f.write(f"\n======= CHSH ========\n")
+        f.write("Using CHSHs: " + str(CHSHS) + "\n")
+        f.write("Min Entropy Is: " + str(chsh_min_entropy(*CHSHS)) + "\n")
 
         # compute scalability for this category
         # with open(output_path, "a") as f:

@@ -1,12 +1,11 @@
 import numpy as np
 
-def chsh_min_entropy(chsh1: float, chsh2: float) -> float:
+def chsh_min_entropy(*chsh: float) -> float:
     """
     Computes min-entropy based on CHSH violation for device-independent randomness.
     
     Parameters:
-        chsh1 (float): CHSH1 estimate from experiment.
-        chsh2 (float): CHSH2 estimate from experiment.
+        chsh (float): CHSH estimates from experiments.
 
     Returns:
         float: Min-entropy (higher means more quantum randomness).
@@ -31,8 +30,10 @@ def chsh_min_entropy(chsh1: float, chsh2: float) -> float:
         # compute min-entropy
         return -np.log2(P_guess)
 
-    #min-entropy
-    min_entropy_1 = compute_single_min_entropy(chsh1)
-    min_entropy_2 = compute_single_min_entropy(chsh2)
+    return min(map(lambda x: compute_single_min_entropy(x), chsh))
 
-    return min(min_entropy_1, min_entropy_2)
+print("===== CHSH =====")
+
+CHSHS = [2.774666666666667, 2.763466666666667, 2.7306, 2.6206, 2.7123333333333335, 2.7248]
+print("Using CHSHs: ", CHSHS)
+print("Min Entropy Is: ", chsh_min_entropy(*CHSHS))

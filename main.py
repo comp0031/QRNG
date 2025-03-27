@@ -28,6 +28,7 @@ def main() -> None:
     bit_efficiency = {}
     for category, category_path in data.items():
 
+        file_paths = [os.path.join(category_path, file_name) for file_name in os.listdir(category_path)]
         for file_path in file_paths:
             file_name = os.path.basename(file_path)
 

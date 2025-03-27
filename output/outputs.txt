@@ -1,55 +1,55 @@
 
 ======= Generated ========
-10M_BI_DIQRNG.bin => shannon: 0.999999 (time: 0.0142s), chi_squared: 18.642799 (time: 0.0120s), bias: 0.000683 (time: 0.0095s), min_entropy: 0.998032 (time: 0.7034s), collision: 0.999997 (time: 0.7285s), renyi: 0.999997 (time: 0.7324s), bit_efficiency: 0.000000 (time: 0.7300s), 
-10M_TRI_DIQRNG.bin => shannon: 1.000000 (time: 0.0003s), chi_squared: 0.070756 (time: 0.0003s), bias: 0.000133 (time: 0.0002s), min_entropy: 0.999616 (time: 0.0736s), collision: 1.000000 (time: 0.0733s), renyi: 1.000000 (time: 0.0729s), bit_efficiency: 0.000001 (time: 0.0729s), 
-10M_quantum.bin => shannon: 0.999844 (time: 0.0068s), chi_squared: 2167.961760 (time: 0.0084s), bias: 0.007362 (time: 0.0065s), min_entropy: 0.978913 (time: 0.7193s), collision: 0.999687 (time: 0.7264s), renyi: 0.999687 (time: 0.7345s), bit_efficiency: 0.000000 (time: 0.7441s), 
+10M_BI_DIQRNG.bin => shannon: 0.999999 (time: 0.0137s), chi_squared: 18.675956 (time: 0.0080s), bias: 0.000683 (time: 0.0097s), min_entropy: 0.998030 (time: 0.7306s), collision: 0.999997 (time: 0.7301s), renyi: 0.999997 (time: 0.7377s), bit_efficiency: 0.000000 (time: 0.7185s), 
+10M_TRI_DIQRNG.bin => shannon: 1.000000 (time: 0.0003s), chi_squared: 0.070756 (time: 0.0002s), bias: 0.000133 (time: 0.0002s), min_entropy: 0.999616 (time: 0.0722s), collision: 1.000000 (time: 0.0722s), renyi: 1.000000 (time: 0.0723s), bit_efficiency: 0.000001 (time: 0.0740s), 
+10M_quantum.bin => shannon: 0.999844 (time: 0.0059s), chi_squared: 2167.961760 (time: 0.0088s), bias: 0.007362 (time: 0.0065s), min_entropy: 0.978913 (time: 0.7102s), collision: 0.999687 (time: 0.7369s), renyi: 0.999687 (time: 0.7439s), bit_efficiency: 0.000000 (time: 0.7378s), 
 
 ======= Efficiency ========
-10M_BI_DIQRNG.bin: inp_num = 10000200, out_num = 0, diff = 0, % = 0
+10M_BI_DIQRNG.bin: inp_num = 10000000, out_num = 0, diff = 0, % = 0
 10M_TRI_DIQRNG.bin: inp_num = 1000000, out_num = 0, diff = 0, % = 0
 10M_quantum.bin: inp_num = 10000000, out_num = 0, diff = 0, % = 0
 
 ======= Extracted ========
-10M_quantum.bin_extracted_using_toeplitz.bin => shannon: 1.000000 (time: 0.0039s), chi_squared: 0.488157 (time: 0.0048s), bias: 0.000112 (time: 0.0034s), min_entropy: 0.999678 (time: 0.7288s), collision: 1.000000 (time: 0.7400s), renyi: 1.000000 (time: 0.7418s), bit_efficiency: 0.000000 (time: 0.7400s), 
-10M_quantum.bin_extracted_using_dodis.bin => shannon: 1.000000 (time: 0.0038s), chi_squared: 0.560315 (time: 0.0047s), bias: 0.000120 (time: 0.0042s), min_entropy: 0.999655 (time: 0.7297s), collision: 1.000000 (time: 0.7220s), renyi: 1.000000 (time: 0.7351s), bit_efficiency: 0.000000 (time: 0.7429s), 
-10M_BI_DIQRNG_extracted_using_circulant.bin => shannon: 1.000000 (time: 0.0037s), chi_squared: 0.246973 (time: 0.0045s), bias: 0.000079 (time: 0.0037s), min_entropy: 0.999773 (time: 0.7436s), collision: 1.000000 (time: 0.7612s), renyi: 1.000000 (time: 0.7454s), bit_efficiency: 0.000000 (time: 0.7520s), 
-10M_BI_DIQRNG_extracted_using_toeplitz.bin => shannon: 1.000000 (time: 0.0042s), chi_squared: 5.519396 (time: 0.0046s), bias: 0.000372 (time: 0.0040s), min_entropy: 0.998928 (time: 0.7491s), collision: 0.999999 (time: 0.7567s), renyi: 0.999999 (time: 0.7457s), bit_efficiency: 0.000000 (time: 0.7453s), 
-10M_quantum_extracted_using_dodis.bin => shannon: 1.000000 (time: 0.0042s), chi_squared: 0.722807 (time: 0.0045s), bias: 0.000136 (time: 0.0040s), min_entropy: 0.999608 (time: 0.7273s), collision: 1.000000 (time: 0.7188s), renyi: 1.000000 (time: 0.7191s), bit_efficiency: 0.000000 (time: 0.7317s), 
-10M_quantum.bin_extracted_using_circulant.bin => shannon: 1.000000 (time: 0.0039s), chi_squared: 1.115164 (time: 0.0046s), bias: 0.000169 (time: 0.0036s), min_entropy: 0.999513 (time: 0.7386s), collision: 1.000000 (time: 0.7435s), renyi: 1.000000 (time: 0.7449s), bit_efficiency: 0.000000 (time: 0.7184s), 
-10M_TRI_DIQRNG_extracted_using_circulant.bin => shannon: 0.999999 (time: 0.0005s), chi_squared: 2.017304 (time: 0.0003s), bias: 0.000710 (time: 0.0002s), min_entropy: 0.997952 (time: 0.0757s), collision: 0.999997 (time: 0.0763s), renyi: 0.999997 (time: 0.0766s), bit_efficiency: 0.000001 (time: 0.0759s), 
-10M_quantum_extracted_using_toeplitz.bin => shannon: 1.000000 (time: 0.0040s), chi_squared: 0.513488 (time: 0.0043s), bias: 0.000115 (time: 0.0040s), min_entropy: 0.999670 (time: 0.7190s), collision: 1.000000 (time: 0.7333s), renyi: 1.000000 (time: 0.7318s), bit_efficiency: 0.000000 (time: 0.7315s), 
-10M_TRI_DIQRNG_extracted_using_dodis.bin => shannon: 0.999998 (time: 0.0004s), chi_squared: 3.438857 (time: 0.0002s), bias: 0.000927 (time: 0.0002s), min_entropy: 0.997327 (time: 0.0759s), collision: 0.999995 (time: 0.0764s), renyi: 0.999995 (time: 0.0768s), bit_efficiency: 0.000001 (time: 0.0764s), 
-10M_quantum_extracted_using_circulant.bin => shannon: 1.000000 (time: 0.0039s), chi_squared: 0.130441 (time: 0.0045s), bias: 0.000058 (time: 0.0040s), min_entropy: 0.999833 (time: 0.7223s), collision: 1.000000 (time: 0.7068s), renyi: 1.000000 (time: 0.7095s), bit_efficiency: 0.000000 (time: 0.7374s), 
-10M_BI_DIQRNG_extracted_using_dodis.bin => shannon: 1.000000 (time: 0.0040s), chi_squared: 0.278099 (time: 0.0047s), bias: 0.000083 (time: 0.0032s), min_entropy: 0.999759 (time: 0.7202s), collision: 1.000000 (time: 0.7395s), renyi: 1.000000 (time: 0.7474s), bit_efficiency: 0.000000 (time: 0.7414s), 
-10M_TRI_DIQRNG_extracted_using_toeplitz.bin => shannon: 0.999999 (time: 0.0003s), chi_squared: 1.407226 (time: 0.0002s), bias: 0.000593 (time: 0.0001s), min_entropy: 0.998289 (time: 0.0743s), collision: 0.999998 (time: 0.0764s), renyi: 0.999998 (time: 0.0760s), bit_efficiency: 0.000001 (time: 0.0769s), 
+10M_quantum.bin_extracted_using_toeplitz.bin => shannon: 1.000000 (time: 0.0039s), chi_squared: 0.488157 (time: 0.0050s), bias: 0.000112 (time: 0.0026s), min_entropy: 0.999678 (time: 0.7419s), collision: 1.000000 (time: 0.7489s), renyi: 1.000000 (time: 0.7259s), bit_efficiency: 0.000000 (time: 0.7303s), 
+10M_quantum.bin_extracted_using_dodis.bin => shannon: 1.000000 (time: 0.0038s), chi_squared: 0.560315 (time: 0.0046s), bias: 0.000120 (time: 0.0030s), min_entropy: 0.999655 (time: 0.7380s), collision: 1.000000 (time: 0.7232s), renyi: 1.000000 (time: 0.7405s), bit_efficiency: 0.000000 (time: 0.7217s), 
+10M_BI_DIQRNG_extracted_using_circulant.bin => shannon: 1.000000 (time: 0.0039s), chi_squared: 2.529055 (time: 0.0050s), bias: 0.000252 (time: 0.0027s), min_entropy: 0.999274 (time: 0.7333s), collision: 1.000000 (time: 0.7473s), renyi: 1.000000 (time: 0.7516s), bit_efficiency: 0.000000 (time: 0.7518s), 
+10M_BI_DIQRNG_extracted_using_toeplitz.bin => shannon: 1.000000 (time: 0.0037s), chi_squared: 0.030975 (time: 0.0048s), bias: 0.000028 (time: 0.0032s), min_entropy: 0.999920 (time: 0.7380s), collision: 1.000000 (time: 0.7612s), renyi: 1.000000 (time: 0.7430s), bit_efficiency: 0.000000 (time: 0.7623s), 
+10M_quantum_extracted_using_dodis.bin => shannon: 1.000000 (time: 0.0035s), chi_squared: 0.325124 (time: 0.0048s), bias: 0.000091 (time: 0.0032s), min_entropy: 0.999737 (time: 0.7079s), collision: 1.000000 (time: 0.7259s), renyi: 1.000000 (time: 0.7290s), bit_efficiency: 0.000000 (time: 0.7360s), 
+10M_quantum.bin_extracted_using_circulant.bin => shannon: 1.000000 (time: 0.0035s), chi_squared: 1.115164 (time: 0.0050s), bias: 0.000169 (time: 0.0030s), min_entropy: 0.999513 (time: 0.7238s), collision: 1.000000 (time: 0.7406s), renyi: 1.000000 (time: 0.7229s), bit_efficiency: 0.000000 (time: 0.7316s), 
+10M_TRI_DIQRNG_extracted_using_circulant.bin => shannon: 1.000000 (time: 0.0005s), chi_squared: 0.186708 (time: 0.0003s), bias: 0.000216 (time: 0.0002s), min_entropy: 0.999377 (time: 0.0735s), collision: 1.000000 (time: 0.0735s), renyi: 1.000000 (time: 0.0756s), bit_efficiency: 0.000001 (time: 0.0738s), 
+10M_quantum_extracted_using_toeplitz.bin => shannon: 1.000000 (time: 0.0035s), chi_squared: 0.000827 (time: 0.0048s), bias: 0.000005 (time: 0.0038s), min_entropy: 0.999987 (time: 0.7230s), collision: 1.000000 (time: 0.7465s), renyi: 1.000000 (time: 0.7471s), bit_efficiency: 0.000000 (time: 0.7483s), 
+10M_TRI_DIQRNG_extracted_using_dodis.bin => shannon: 1.000000 (time: 0.0003s), chi_squared: 0.662893 (time: 0.0002s), bias: 0.000407 (time: 0.0001s), min_entropy: 0.998826 (time: 0.0740s), collision: 0.999999 (time: 0.0758s), renyi: 0.999999 (time: 0.0739s), bit_efficiency: 0.000001 (time: 0.0758s), 
+10M_quantum_extracted_using_circulant.bin => shannon: 1.000000 (time: 0.0040s), chi_squared: 0.971600 (time: 0.0048s), bias: 0.000158 (time: 0.0033s), min_entropy: 0.999546 (time: 0.7238s), collision: 1.000000 (time: 0.7459s), renyi: 1.000000 (time: 0.7298s), bit_efficiency: 0.000000 (time: 0.7476s), 
+10M_BI_DIQRNG_extracted_using_dodis.bin => shannon: 1.000000 (time: 0.0041s), chi_squared: 0.098204 (time: 0.0045s), bias: 0.000050 (time: 0.0036s), min_entropy: 0.999857 (time: 0.7378s), collision: 1.000000 (time: 0.7555s), renyi: 1.000000 (time: 0.7374s), bit_efficiency: 0.000000 (time: 0.7554s), 
+10M_TRI_DIQRNG_extracted_using_toeplitz.bin => shannon: 1.000000 (time: 0.0004s), chi_squared: 0.669424 (time: 0.0002s), bias: 0.000409 (time: 0.0001s), min_entropy: 0.998820 (time: 0.0746s), collision: 0.999999 (time: 0.0763s), renyi: 0.999999 (time: 0.0744s), bit_efficiency: 0.000001 (time: 0.0770s), 
 
 ======= Efficiency ========
-10M_BI_DIQRNG.bin: inp_num = 10000200, out_num = 0, diff = 0, % = 0
+10M_BI_DIQRNG.bin: inp_num = 10000000, out_num = 0, diff = 0, % = 0
 10M_TRI_DIQRNG.bin: inp_num = 1000000, out_num = 0, diff = 0, % = 0
 10M_quantum.bin: inp_num = 10000000, out_num = 0, diff = 0, % = 0
 10M_quantum.bin_extracted_using_toeplitz.bin: inp_num = 0, out_num = 1223633, diff = 0, % = 0
 10M_quantum.bin_extracted_using_dodis.bin: inp_num = 0, out_num = 1223633, diff = 0, % = 0
-10M_BI_DIQRNG_extracted_using_circulant.bin: inp_num = 0, out_num = 1247557, diff = 0, % = 0
-10M_BI_DIQRNG_extracted_using_toeplitz.bin: inp_num = 0, out_num = 1247557, diff = 0, % = 0
+10M_BI_DIQRNG_extracted_using_circulant.bin: inp_num = 0, out_num = 1247530, diff = 0, % = 0
+10M_BI_DIQRNG_extracted_using_toeplitz.bin: inp_num = 0, out_num = 1247530, diff = 0, % = 0
 10M_quantum_extracted_using_dodis.bin: inp_num = 0, out_num = 1223633, diff = 0, % = 0
 10M_quantum.bin_extracted_using_circulant.bin: inp_num = 0, out_num = 1223633, diff = 0, % = 0
 10M_TRI_DIQRNG_extracted_using_circulant.bin: inp_num = 0, out_num = 124944, diff = 0, % = 0
 10M_quantum_extracted_using_toeplitz.bin: inp_num = 0, out_num = 1223633, diff = 0, % = 0
 10M_TRI_DIQRNG_extracted_using_dodis.bin: inp_num = 0, out_num = 124944, diff = 0, % = 0
 10M_quantum_extracted_using_circulant.bin: inp_num = 0, out_num = 1223633, diff = 0, % = 0
-10M_BI_DIQRNG_extracted_using_dodis.bin: inp_num = 0, out_num = 1247557, diff = 0, % = 0
+10M_BI_DIQRNG_extracted_using_dodis.bin: inp_num = 0, out_num = 1247530, diff = 0, % = 0
 10M_TRI_DIQRNG_extracted_using_toeplitz.bin: inp_num = 0, out_num = 124944, diff = 0, % = 0
 10M_quantum.bin.bin__toeplitz: inp_num = 0, out_num = 9789064, diff = 0, % = 0
 10M_quantum.bin.bin__dodis: inp_num = 0, out_num = 9789064, diff = 0, % = 0
-10M_BI_DIQRNG.bin__circulant: inp_num = 10000200, out_num = 9980456, diff = 19744, % = 0.19743605127897443
-10M_BI_DIQRNG.bin__toeplitz: inp_num = 10000200, out_num = 9980456, diff = 19744, % = 0.19743605127897443
+10M_BI_DIQRNG.bin__circulant: inp_num = 10000000, out_num = 9980240, diff = 19760, % = 0.1976
+10M_BI_DIQRNG.bin__toeplitz: inp_num = 10000000, out_num = 9980240, diff = 19760, % = 0.1976
 10M_quantum.bin__dodis: inp_num = 10000000, out_num = 9789064, diff = 210936, % = 2.10936
 10M_quantum.bin.bin__circulant: inp_num = 0, out_num = 9789064, diff = 0, % = 0
 10M_TRI_DIQRNG.bin__circulant: inp_num = 1000000, out_num = 999552, diff = 448, % = 0.0448
 10M_quantum.bin__toeplitz: inp_num = 10000000, out_num = 9789064, diff = 210936, % = 2.10936
 10M_TRI_DIQRNG.bin__dodis: inp_num = 1000000, out_num = 999552, diff = 448, % = 0.0448
 10M_quantum.bin__circulant: inp_num = 10000000, out_num = 9789064, diff = 210936, % = 2.10936
-10M_BI_DIQRNG.bin__dodis: inp_num = 10000200, out_num = 9980456, diff = 19744, % = 0.19743605127897443
+10M_BI_DIQRNG.bin__dodis: inp_num = 10000000, out_num = 9980240, diff = 19760, % = 0.1976
 10M_TRI_DIQRNG.bin__toeplitz: inp_num = 1000000, out_num = 999552, diff = 448, % = 0.0448
 
 ======= CHSH ========

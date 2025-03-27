@@ -47,6 +47,8 @@ def generate(
         uncertainty (float): The uncertainty to allow in the CHSH violations.
         angle (float): The angle to use for the entangled qubits. Maximal CHSH violations are \
             produced when angle = pi/4.
+        backend (str | None): The backend to use. If None, the least busy backend with the \
+            required number of qubits will be used.
     
     Returns:
         str: A string of random numbers generated using the CHSH protocol.
@@ -79,7 +81,6 @@ def generate(
         raise AbortGeneration(failures, threshold)
 
     # Generate any remaining random numbers
-    print("Generating ", gen_shots * num_gens * num_pairs, " random numbers")
     random_numbers += chsh_circuit.generate_numbers(num_shots=gen_shots * num_gens)
     return random_numbers
 
